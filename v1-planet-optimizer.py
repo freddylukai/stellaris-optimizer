@@ -95,7 +95,7 @@ def v1_planet_optimizer(population,
         else:
             variables[building] = LpVariable(building, 0, maxbuildings, LpInteger)
     #problem statement
-    problem += research_weight*variables[r] + unity_weight*variables[u] + alloys_weight*variables[al] + trade_weight*variables[t] + other_weight*lpSum([variables[v] for v in variables if v in resources and v not in [r, u, al, t]])
+    problem += research_weight*variables[r] + unity_weight*variables[u] + alloys_weight*variables[al] + trade_weight*variables[t] + other_weight*lpSum([variables[v] for v in variables if v in resources and v not in [r, u, al, t]]) + starbase_research + starbase_trade
     #constraints
     buildingcons = variables["buildings"] == lpSum([variables[v] for v in variables if v in building_set])
     problem += buildingcons
@@ -109,18 +109,18 @@ def v1_planet_optimizer(population,
     #basic statement: production must exceed consumption
     #food: consumption is 1 per pop
     #apply 3% modifier: average of all %increase buildings
-    problem += variables[f] - desiredfoodsurplus == basic_res_weight*fpj_m*stab_bonus*resw_m*lpSum([get_res_job(f, v) * variables[v] for v in variables if v in jobs and get_res_job(f, v) > 0])\
+    problem += variables[f] - desiredfoodsurplus + starbase_food == basic_res_weight*fpj_m*stab_bonus*resw_m*lpSum([get_res_job(f, v) * variables[v] for v in variables if v in jobs and get_res_job(f, v) > 0])\
                + lpSum([get_res_job(f, v) * variables[v] for v in variables if v in jobs and get_res_job(f, v) < 0]) \
                - population
     #energy production and mineral production
     #population doesn't use energy or minerals
     #jobs can use energy or minerals
-    econs = variables[e] - desiredenergysurplus == basic_res_weight*epj_m*stab_bonus*resw_m*lpSum([get_res_job(e, v) * variables[v] for v in variables if v in jobs and get_res_job(e, v) > 0]) \
+    econs = variables[e] - desiredenergysurplus + starbase_energy == basic_res_weight*epj_m*stab_bonus*resw_m*lpSum([get_res_job(e, v) * variables[v] for v in variables if v in jobs and get_res_job(e, v) > 0]) \
                + lpSum([get_res_job(e, v) * variables[v] for v in variables if v in jobs and get_res_job(e, v) < 0]) \
                + 1.03*lpSum([get_res_bldg(e, v, building_set) * variables[v] for v in variables if get_res_bldg(e, v, building_set) > 0]) \
                + lpSum([get_res_bldg(e, v, building_set) * variables[v] for v in variables if get_res_bldg(e, v, building_set) < 0])
     problem += econs
-    mcons = variables[m] - desiredmineralsurplus == basic_res_weight*mpj_m*stab_bonus*resw_m*lpSum([get_res_job(m, v) * variables[v] for v in variables if v in jobs and get_res_job(m, v) > 0]) \
+    mcons = variables[m] - desiredmineralsurplus + starbase_minerals == basic_res_weight*mpj_m*stab_bonus*resw_m*lpSum([get_res_job(m, v) * variables[v] for v in variables if v in jobs and get_res_job(m, v) > 0]) \
                + lpSum([get_res_job(m, v) * variables[v] for v in variables if v in jobs and get_res_job(m, v) < 0]) \
                + 1.03*lpSum([get_res_bldg(m, v, building_set) * variables[v] for v in variables if get_res_bldg(m, v, building_set) > 0]) \
                + lpSum([get_res_bldg(m, v, building_set) * variables[v] for v in variables if get_res_bldg(m, v, building_set) < 0])
@@ -169,6 +169,8 @@ if __name__ == '__main__':
         with open(sys.argv[1]) as f:
             l = f.readline().split(",\s*")
             output = v1_planet_optimizer(int(l[0]), int(l[1]), int(l[2]), int(l[3]), int(l[4]), int(l[5]), int(l[6]), int(l[7]), int(l[8]), float(l[9]))
+            for k, v in output.items():
+                print(k, v)
     else:
         print("Usage: v1-planet-optimizer.py planetfile.csv")
         print("Planetfile.csv: Population, Max_City_Districts, Max_Food_Districts, Max_Energy_Districts, Max_Buildings, Tier, Energy_Surplus, Mineral_Surplus, Food_Surplus, Stability(0-1)")
