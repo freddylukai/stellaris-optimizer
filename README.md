@@ -60,6 +60,10 @@ Use with `v1-planet-optimizer.py planetfile.csv`, where `planetfile.csv` is the 
 
 If you understand how PuLP works, you can simply directly edit the problem in the file; for instance, if you wanted to permit a deficit of consumer goods, or change the objective to maximizing food (such as on an agricultural world)
 
+#### Known Issues
+
+Do note that the current weighting scheme for alloys, research, and unity is a bit broken; you may have to adjust the weights within the program to get it to produce "balanced" results, or you can use it to produce research only or alloy only worlds.
+
 ## Future Work
 
 ### value config
