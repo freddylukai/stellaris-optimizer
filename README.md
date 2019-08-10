@@ -75,6 +75,7 @@ Permits updating the definitions of value.py to reflect different types of gover
 * Permit deficits of any resource which is empire shared
 * Permit specialization, which automatically sets the objective function and changes upkeep to accurately reflect specialization
 * Allow population growth priotization
+* Handle special buildings that are dependent on planetary features
 
 ### Habitat, Ringworld, Ecumenopolis, Machine World, Hive World optimizer
 
