@@ -33,7 +33,7 @@ Any empire wide values should go in here, as well as definitions of the gain/los
 
 #### Extensions
 
-At present, you can directly edit values as necessary.
+At present, you can directly edit values as necessary; this is especially useful for deficits of resources from other parts of your empire.
 
 ### v1-planet-optimizer.py
 
@@ -55,10 +55,6 @@ Use with `v1-planet-optimizer.py planetfile.csv`, where `planetfile.csv` is the 
 12. Stability (Float value, 0 - 1, with 1 being 100% and 0 being 0%)
 
 **Tier**: This is a representation of the "level" of building present; ie, if you have alloy foundries, mega-forges, or nano-plants. In this version, the optimizer assumes that all buildings are the same tier; ie, if you have alloy mega-forges, you also have civilian fabricators. Also, the authocthon monument and reassembled ship shelter are considered tier 0, and therefore not included.
-
-#### Extensions
-
-If you understand how PuLP works, you can simply directly edit the problem in the file; for instance, if you wanted to permit a deficit of consumer goods, or change the objective to maximizing food (such as on an agricultural world)
 
 #### Known Issues
 
