@@ -168,9 +168,9 @@ if __name__ == '__main__':
     if len(sys.argv) >= 1:
         with open(sys.argv[1]) as f:
             l = f.readline().split(",\s*")
-            output = v1_planet_optimizer(int(l[0]), int(l[1]), int(l[2]), int(l[3]), int(l[4]), int(l[5]), int(l[6]), int(l[7]), int(l[8]), float(l[9]))
+            output = v1_planet_optimizer(int(l[0]), int(l[1]), int(l[2]), int(l[3]), int(l[4]), int(l[5]), int(l[6]), int(l[7]), int(l[8]), int(l[9]), int(l[10]), float(l[11]))
             for k, v in output.items():
                 print(k, v)
     else:
         print("Usage: v1-planet-optimizer.py planetfile.csv")
-        print("Planetfile.csv: Population, Max_City_Districts, Max_Food_Districts, Max_Energy_Districts, Max_Buildings, Tier, Energy_Surplus, Mineral_Surplus, Food_Surplus, Stability(0-1)")
+        print("Planetfile.csv: Population, Max_City_Districts, Max_Food_Districts, Max_Mineral_Districts, Max_Energy_Districts, Max_Districts, Max_Buildings, Tier, Energy_Surplus, Mineral_Surplus, Food_Surplus, Stability(0-1)")
